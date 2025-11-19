@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import GameRoom from '@/components/GameRoom';
+import GameIcon from '@/components/GameIcon';
 
 interface Game {
   id: string;
@@ -29,7 +30,8 @@ const games: Game[] = [
   { id: 'checkers', name: 'Шашки', icon: 'Circle', emoji: '⚫', description: 'Простая и захватывающая' },
   { id: 'battleship', name: 'Морской бой', icon: 'Ship', emoji: '🚢', description: 'Потопи флот противника' },
   { id: 'connect4', name: '4 в ряд', icon: 'Grid3x3', emoji: '🔴', description: 'Собери четыре фишки' },
-  { id: 'tictactoe', name: 'Крестики-нолики', icon: 'X', emoji: '❌', description: 'Быстрая партия' }
+  { id: 'tictactoe', name: 'Крестики-нолики', icon: 'X', emoji: '❌', description: 'Быстрая партия' },
+  { id: 'quoridor', name: 'Коридор', icon: 'Grid2x2', emoji: '🧱', description: 'Стратегия со стенами и путями' }
 ];
 
 const Index = () => {
@@ -41,7 +43,8 @@ const Index = () => {
       checkers: 1150,
       battleship: 1100,
       connect4: 1050,
-      tictactoe: 1000
+      tictactoe: 1000,
+      quoridor: 1175
     },
     gamesPlayed: 42
   });
@@ -50,11 +53,18 @@ const Index = () => {
   const [roomCode, setRoomCode] = useState('');
   const [isCreatingRoom, setIsCreatingRoom] = useState(false);
   const [inGameRoom, setInGameRoom] = useState(false);
+  const [gameMode, setGameMode] = useState<'friend' | 'matchmaking' | 'bot' | null>(null);
 
   const createRoom = () => {
     const code = Math.random().toString(36).substring(2, 8).toUpperCase();
     setRoomCode(code);
     setIsCreatingRoom(true);
+    setGameMode('friend');
+  };
+
+  const playWithBot = () => {
+    setGameMode('bot');
+    setInGameRoom(true);
   };
 
   const enterGame = () => {
@@ -66,6 +76,7 @@ const Index = () => {
     setIsCreatingRoom(false);
     setRoomCode('');
     setSelectedGame(null);
+    setGameMode(null);
   };
 
   const copyRoomLink = () => {
@@ -174,7 +185,9 @@ const Index = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="relative z-10">
-                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">{game.emoji}</div>
+                  <div className="mb-4 group-hover:scale-110 transition-transform duration-300 flex justify-center">
+                    <GameIcon gameId={game.id} size={72} />
+                  </div>
                   <h3 className="text-xl font-semibold mb-2">{game.name}</h3>
                   <p className="text-sm text-muted-foreground mb-4">{game.description}</p>
                   <div className="flex items-center justify-between">
@@ -191,21 +204,23 @@ const Index = () => {
           {selectedGame && (
             <Card className="p-8 bg-card/50 backdrop-blur-xl border-muted/30 animate-fade-in glow-effect">
               <div className="text-center mb-6">
-                <div className="text-7xl mb-4 animate-scale-in">{selectedGame.emoji}</div>
+                <div className="mb-4 animate-scale-in flex justify-center">
+                  <GameIcon gameId={selectedGame.id} size={96} />
+                </div>
                 <h3 className="text-3xl font-bold mb-2 gradient-text">{selectedGame.name}</h3>
                 <p className="text-muted-foreground">{selectedGame.description}</p>
               </div>
 
               {!isCreatingRoom ? (
-                <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
                   <Button
                     size="lg"
                     className="h-28 flex flex-col gap-2 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 glow-effect"
                     onClick={createRoom}
                   >
-                    <Icon name="Link" size={32} />
-                    <span className="text-lg font-semibold">Играть с другом</span>
-                    <span className="text-xs opacity-90">Создать комнату и отправить ссылку</span>
+                    <Icon name="Link" size={28} />
+                    <span className="text-base font-semibold">Играть с другом</span>
+                    <span className="text-xs opacity-90">Создать комнату</span>
                   </Button>
 
                   <Button
@@ -213,9 +228,20 @@ const Index = () => {
                     variant="secondary"
                     className="h-28 flex flex-col gap-2 bg-gradient-to-br from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-white"
                   >
-                    <Icon name="Users" size={32} />
-                    <span className="text-lg font-semibold">Найти противника</span>
-                    <span className="text-xs opacity-90">Автоматический подбор по рейтингу</span>
+                    <Icon name="Users" size={28} />
+                    <span className="text-base font-semibold">Найти противника</span>
+                    <span className="text-xs opacity-90">Подбор по рейтингу</span>
+                  </Button>
+
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-28 flex flex-col gap-2 border-2 hover:bg-muted/50"
+                    onClick={playWithBot}
+                  >
+                    <Icon name="Bot" size={28} />
+                    <span className="text-base font-semibold">Играть с ботом</span>
+                    <span className="text-xs opacity-70">Без рейтинга</span>
                   </Button>
                 </div>
               ) : (
