@@ -6,44 +6,44 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
+    --background: 240 10% 6%;
     --foreground: 0 0% 98%;
 
-    --card: 226 36% 16%;
+    --card: 240 10% 10%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 226 36% 16%;
+    --popover: 240 10% 10%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 263 70% 76%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 271 91% 65%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 262 52% 47%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 195 100% 50%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 226 30% 25%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 240 8% 18%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 263 70% 76%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 271 91% 65%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 226 30% 25%;
-    --input: 226 30% 25%;
-    --ring: 263 70% 76%;
+    --border: 240 8% 18%;
+    --input: 240 8% 18%;
+    --ring: 271 91% 65%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    --sidebar-background: 222 47% 11%;
+    --sidebar-background: 240 10% 6%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 263 70% 76%;
-    --sidebar-primary-foreground: 222 47% 11%;
-    --sidebar-accent: 226 36% 16%;
+    --sidebar-primary: 271 91% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 10% 10%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 226 30% 25%;
-    --sidebar-ring: 263 70% 76%;
+    --sidebar-border: 240 8% 18%;
+    --sidebar-ring: 271 91% 65%;
   }
 }
 
@@ -55,6 +55,12 @@
   body {
     @apply bg-background text-foreground;
     font-family: "Open Sans", sans-serif;
+    background: linear-gradient(
+      135deg,
+      hsl(240, 10%, 6%) 0%,
+      hsl(250, 15%, 8%) 50%,
+      hsl(260, 12%, 7%) 100%
+    );
   }
 
   h1,
@@ -64,5 +70,64 @@
   h5,
   h6 {
     font-family: "Rubik", sans-serif;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    background: linear-gradient(
+      135deg,
+      hsl(271, 91%, 65%) 0%,
+      hsl(195, 100%, 50%) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-border {
+    position: relative;
+    background: hsl(var(--card));
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      hsl(271, 91%, 65%),
+      hsl(195, 100%, 50%)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .glow-effect {
+    box-shadow:
+      0 0 20px rgba(124, 58, 237, 0.3),
+      0 0 40px rgba(124, 58, 237, 0.1);
+  }
+
+  .hover-glow {
+    transition: all 0.3s ease;
+  }
+
+  .hover-glow:hover {
+    box-shadow:
+      0 0 30px rgba(124, 58, 237, 0.5),
+      0 0 60px rgba(124, 58, 237, 0.2);
+    transform: translateY(-2px);
   }
 }

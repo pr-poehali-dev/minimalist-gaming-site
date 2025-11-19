@@ -57,18 +57,18 @@ const GameRoom = ({ gameId, gameName, gameEmoji, roomCode, onLeave }: GameRoomPr
   };
 
   return (
-    <div className="min-h-screen bg-background p-4">
+    <div className="min-h-screen p-4">
       <div className="max-w-6xl mx-auto">
-        <Card className="p-6 mb-6 bg-card/90 backdrop-blur">
+        <Card className="p-6 mb-6 bg-card/50 backdrop-blur-xl border-muted/30 glow-effect">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="text-4xl">{gameEmoji}</div>
+              <div className="text-5xl">{gameEmoji}</div>
               <div>
-                <h2 className="text-2xl font-bold">{gameName}</h2>
-                <p className="text-sm text-muted-foreground">Код комнаты: {roomCode}</p>
+                <h2 className="text-2xl font-bold gradient-text">{gameName}</h2>
+                <p className="text-sm text-muted-foreground">Код комнаты: <span className="font-mono text-primary">{roomCode}</span></p>
               </div>
             </div>
-            <Button variant="outline" onClick={onLeave}>
+            <Button variant="outline" onClick={onLeave} className="border-destructive/50 text-destructive hover:bg-destructive/10">
               <Icon name="X" size={18} className="mr-2" />
               Выйти
             </Button>
@@ -77,17 +77,17 @@ const GameRoom = ({ gameId, gameName, gameEmoji, roomCode, onLeave }: GameRoomPr
 
         <div className="grid lg:grid-cols-[1fr_300px] gap-6">
           <div>
-            <Card className="aspect-square bg-muted/30 backdrop-blur flex items-center justify-center relative overflow-hidden">
+            <Card className="aspect-square bg-gradient-to-br from-muted/20 via-muted/10 to-muted/20 backdrop-blur-xl border-muted/30 flex items-center justify-center relative overflow-hidden">
               {isWaiting ? (
                 <div className="text-center animate-fade-in">
-                  <div className="text-6xl mb-4">⏳</div>
-                  <p className="text-xl font-medium">Ожидание противника...</p>
+                  <div className="text-7xl mb-4 animate-pulse">⏳</div>
+                  <p className="text-2xl font-medium gradient-text">Ожидание противника...</p>
                   <p className="text-sm text-muted-foreground mt-2">Отправь ссылку другу</p>
                 </div>
               ) : (
-                <div className="text-center">
-                  <div className="text-6xl mb-4">{gameEmoji}</div>
-                  <p className="text-2xl font-bold">Игра начинается!</p>
+                <div className="text-center animate-scale-in">
+                  <div className="text-8xl mb-6 animate-bounce">{gameEmoji}</div>
+                  <p className="text-3xl font-bold gradient-text">Игра начинается!</p>
                   <p className="text-muted-foreground mt-2">Здесь будет игровое поле</p>
                 </div>
               )}
@@ -108,10 +108,10 @@ const GameRoom = ({ gameId, gameName, gameEmoji, roomCode, onLeave }: GameRoomPr
           </div>
 
           <div className="space-y-4">
-            <Card className="p-4">
+            <Card className="p-4 bg-card/50 backdrop-blur-xl border-muted/30">
               <h3 className="text-sm font-medium mb-3">Игроки</h3>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg">
+                <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg border border-primary/20">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={player1.avatar} />
                     <AvatarFallback>{player1.username[0]}</AvatarFallback>
@@ -126,7 +126,7 @@ const GameRoom = ({ gameId, gameName, gameEmoji, roomCode, onLeave }: GameRoomPr
                 </div>
 
                 {player2 ? (
-                  <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                  <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-secondary/20 to-secondary/10 rounded-lg border border-secondary/20">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={player2.avatar} />
                       <AvatarFallback>{player2.username[0]}</AvatarFallback>
@@ -150,7 +150,7 @@ const GameRoom = ({ gameId, gameName, gameEmoji, roomCode, onLeave }: GameRoomPr
               </div>
             </Card>
 
-            <Card className="p-4">
+            <Card className="p-4 bg-card/50 backdrop-blur-xl border-muted/30">
               <h3 className="text-sm font-medium mb-3">Реакции</h3>
               <Popover>
                 <PopoverTrigger asChild>
@@ -176,7 +176,7 @@ const GameRoom = ({ gameId, gameName, gameEmoji, roomCode, onLeave }: GameRoomPr
               </Popover>
             </Card>
 
-            <Card className="p-4">
+            <Card className="p-4 bg-card/50 backdrop-blur-xl border-muted/30">
               <h3 className="text-sm font-medium mb-3">Статистика</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">

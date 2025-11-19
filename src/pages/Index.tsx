@@ -87,11 +87,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-border/50 bg-card/30 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="text-3xl">🎮</div>
-            <h1 className="text-2xl font-bold">GameHub</h1>
+            <h1 className="text-2xl font-bold gradient-text">GameHub</h1>
           </div>
           
           <Dialog>
@@ -158,7 +158,7 @@ const Index = () => {
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-4xl sm:text-5xl font-bold mb-4">Выбери свою игру</h2>
+            <h2 className="text-4xl sm:text-6xl font-bold mb-4 gradient-text">Выбери свою игру</h2>
             <p className="text-muted-foreground text-lg">
               Играй с друзьями по ссылке или соревнуйся с другими игроками
             </p>
@@ -168,28 +168,31 @@ const Index = () => {
             {games.map((game, index) => (
               <Card
                 key={game.id}
-                className="p-6 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer bg-card/80 backdrop-blur animate-scale-in"
+                className="p-6 hover-glow transition-all duration-300 cursor-pointer bg-card/50 backdrop-blur-xl border-muted/30 animate-scale-in relative overflow-hidden group"
                 style={{ animationDelay: `${index * 100}ms` }}
                 onClick={() => setSelectedGame(game)}
               >
-                <div className="text-5xl mb-4">{game.emoji}</div>
-                <h3 className="text-xl font-semibold mb-2">{game.name}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{game.description}</p>
-                <div className="flex items-center justify-between">
-                  <Badge variant="outline" className="font-mono">
-                    {user.ratings[game.id]}
-                  </Badge>
-                  <Icon name="ChevronRight" size={20} />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative z-10">
+                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">{game.emoji}</div>
+                  <h3 className="text-xl font-semibold mb-2">{game.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">{game.description}</p>
+                  <div className="flex items-center justify-between">
+                    <Badge variant="outline" className="font-mono bg-primary/10 border-primary/30">
+                      {user.ratings[game.id]}
+                    </Badge>
+                    <Icon name="ChevronRight" size={20} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </Card>
             ))}
           </div>
 
           {selectedGame && (
-            <Card className="p-8 bg-card/90 backdrop-blur animate-fade-in">
+            <Card className="p-8 bg-card/50 backdrop-blur-xl border-muted/30 animate-fade-in glow-effect">
               <div className="text-center mb-6">
-                <div className="text-6xl mb-4">{selectedGame.emoji}</div>
-                <h3 className="text-3xl font-bold mb-2">{selectedGame.name}</h3>
+                <div className="text-7xl mb-4 animate-scale-in">{selectedGame.emoji}</div>
+                <h3 className="text-3xl font-bold mb-2 gradient-text">{selectedGame.name}</h3>
                 <p className="text-muted-foreground">{selectedGame.description}</p>
               </div>
 
@@ -197,29 +200,29 @@ const Index = () => {
                 <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
                   <Button
                     size="lg"
-                    className="h-24 flex flex-col gap-2"
+                    className="h-28 flex flex-col gap-2 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 glow-effect"
                     onClick={createRoom}
                   >
-                    <Icon name="Link" size={28} />
-                    <span className="text-lg">Играть с другом</span>
-                    <span className="text-xs opacity-80">Создать комнату и отправить ссылку</span>
+                    <Icon name="Link" size={32} />
+                    <span className="text-lg font-semibold">Играть с другом</span>
+                    <span className="text-xs opacity-90">Создать комнату и отправить ссылку</span>
                   </Button>
 
                   <Button
                     size="lg"
                     variant="secondary"
-                    className="h-24 flex flex-col gap-2"
+                    className="h-28 flex flex-col gap-2 bg-gradient-to-br from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-white"
                   >
-                    <Icon name="Users" size={28} />
-                    <span className="text-lg">Найти противника</span>
-                    <span className="text-xs opacity-80">Автоматический подбор по рейтингу</span>
+                    <Icon name="Users" size={32} />
+                    <span className="text-lg font-semibold">Найти противника</span>
+                    <span className="text-xs opacity-90">Автоматический подбор по рейтингу</span>
                   </Button>
                 </div>
               ) : (
                 <div className="max-w-md mx-auto space-y-4">
-                  <div className="bg-muted/50 p-6 rounded-lg text-center">
+                  <div className="bg-gradient-to-br from-muted/50 to-muted/30 p-6 rounded-xl text-center border border-primary/20 glow-effect">
                     <Label className="text-sm text-muted-foreground mb-2 block">Код комнаты</Label>
-                    <div className="text-3xl font-mono font-bold mb-4 tracking-wider">{roomCode}</div>
+                    <div className="text-4xl font-mono font-bold mb-4 tracking-wider gradient-text">{roomCode}</div>
                     <Button onClick={copyRoomLink} variant="outline" className="w-full mb-2">
                       <Icon name="Copy" size={18} className="mr-2" />
                       Скопировать ссылку
